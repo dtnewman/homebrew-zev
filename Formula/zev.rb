@@ -3,8 +3,8 @@ class Zev < Formula
 
   desc "Lookup CLI commands easily using AI"
   homepage "https://github.com/dtnewman/zev"
-  url "https://files.pythonhosted.org/packages/af/3e/9f47ce5476f2157986cf39992a6942ce29b8f190652c16aa201072e6d144/zev-0.10.11.tar.gz"
-  sha256 "de25a814bade8ac92ffeeb0e48293102f87d2dd4130cea18def907c4a2625e96"
+  url "https://files.pythonhosted.org/packages/98/48/57efe379e8b88e68ead7308b74cba3ca280f2f8471bab2bd5a4341647347/zev-0.10.12.tar.gz"
+  sha256 "fa7577c9b6c4c432ac7c18fc51f060ef52cc41638f3adfacf3441ef249878d6d"
   license "MIT"
 
   depends_on "python@3.12"
@@ -148,15 +148,22 @@ class Zev < Formula
     sha256 "cdc4e4262d6ef9a1a57e018384cbeb1208d8abbc64176027e2c2455c81313159"
   end
 
+  def install_resource(venv, resource)
+    if resource.url&.end_with?(".whl")
+      wheel_dir = buildpath/"homebrew-wheels"
+      wheel_dir.mkpath
+      wheel_name = resource.url.to_s.split("/").last
+      wheel_path = wheel_dir/wheel_name
+      FileUtils.cp(resource.cached_download, wheel_path)
+      venv.pip_install wheel_path
+    else
+      venv.pip_install resource
+    end
+  end
+
   def install
     venv = virtualenv_create(libexec, "python3.12")
-    resources.each do |r|
-      if r.url&.end_with?(".whl")
-        venv.pip_install r.cached_download
-      else
-        venv.pip_install r
-      end
-    end
+    resources.each { |r| install_resource(venv, r) }
     venv.pip_install_and_link buildpath
   end
 

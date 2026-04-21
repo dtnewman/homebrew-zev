@@ -3,12 +3,11 @@ class Zev < Formula
 
   desc "Lookup CLI commands easily using AI"
   homepage "https://github.com/dtnewman/zev"
-  url "https://files.pythonhosted.org/packages/5f/9c/418a9f680aa1558fc878d2d0128c8c15496baf9778d4fda0cf3a58627b29/zev-0.10.7.tar.gz"
-  sha256 "8e24f8b11931ce81dbe883287938ebd12999302ebbf0d540a5b876a3dd4cf16c"
+  url "https://files.pythonhosted.org/packages/87/08/0c2735cb68793c53e709c9ef12d17322af0166b81d2c36adad71d36d3025/zev-0.10.8.tar.gz"
+  sha256 "9c50e61b8b35a2c81f3a8833b0e71f2fc244b9c7432c49b1a77773222e033152"
   license "MIT"
 
   depends_on "python@3.12"
-  depends_on "rust" => :build
 
     resource "annotated-types" do
       url "https://files.pythonhosted.org/packages/ee/67/531ea369ba64dcff5ec9c3402f9f51bf748cec26dde048a2f973a4eea7f5/annotated_types-0.7.0.tar.gz"

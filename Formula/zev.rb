@@ -3,8 +3,8 @@ class Zev < Formula
 
   desc "Lookup CLI commands easily using AI"
   homepage "https://github.com/dtnewman/zev"
-  url "https://files.pythonhosted.org/packages/30/a4/8db6add32ffef6ded3dc2199e40ace509abb860a279ae4f3b22965eddcd2/zev-0.10.9.tar.gz"
-  sha256 "3da38310353de4f034405d4e40bf0143683079700594cf0027a767458a0cc20e"
+  url "https://files.pythonhosted.org/packages/b0/1d/b91d8fb1edfe0abe8fa0e689a4097f84dffd7532879c9680ff84a3ecaf73/zev-0.10.10.tar.gz"
+  sha256 "9414f5980ec45dca057db07483f20f9d93d95c773f1031121e21e7aee0468411"
   license "MIT"
 
   depends_on "python@3.12"
@@ -149,11 +149,7 @@ class Zev < Formula
   end
 
   def install
-    venv = virtualenv_create(libexec, "python@3.12")
-    resources.each(&:fetch)
-    system libexec/"bin/pip", "install", "--no-deps", *resources.map(&:cached_download)
-    system libexec/"bin/pip", "install", "--no-deps", buildpath
-    bin.install_symlink libexec/"bin/zev"
+    virtualenv_install_with_resources
   end
 
   test do

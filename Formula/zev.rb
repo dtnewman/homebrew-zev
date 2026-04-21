@@ -3,8 +3,8 @@ class Zev < Formula
 
   desc "Lookup CLI commands easily using AI"
   homepage "https://github.com/dtnewman/zev"
-  url "https://files.pythonhosted.org/packages/53/4c/8ac51496024007143a919c2c538c8dba64c970567a8d6394b199827936e2/zev-0.10.14.tar.gz"
-  sha256 "5363bfac11302a99291cd1c0159cbce5d9088e92182455827b6635cb799c7bdc"
+  url "https://files.pythonhosted.org/packages/eb/0d/a190e85eb46bed0d7b357594483fcaf462030207f723ff113171214110c4/zev-0.10.15.tar.gz"
+  sha256 "c00ae03199da6da6a5d742a3e0df153035ef45250e765a54103c4e024bba4ef1"
   license "MIT"
 
   depends_on "python@3.12"
@@ -14,12 +14,22 @@ class Zev < Formula
       url "https://files.pythonhosted.org/packages/60/a0/5854ac00ff63551c52c6c89534ec6aba4b93474e7924d64e860b1c94165b/jiter-0.14.0-cp312-cp312-macosx_11_0_arm64.whl"
       sha256 "5252a7ca23785cef5d02d4ece6077a1b556a410c591b379f82091c3001e14844"
     end
+
+    resource "pydantic_core" do
+      url "https://files.pythonhosted.org/packages/a1/4f/2fb62c2267cae99b815bbf4a7b9283812c88ca3153ef29f7707200f1d4e5/pydantic_core-2.46.3-cp312-cp312-macosx_11_0_arm64.whl"
+      sha256 "af8653713055ea18a3abc1537fe2ebc42f5b0bbb768d1eb79fd74eb47c0ac089"
+    end
   end
 
   on_intel do
     resource "jiter" do
       url "https://files.pythonhosted.org/packages/5a/68/7390a418f10897da93b158f2d5a8bd0bcd73a0f9ec3bb36917085bb759ef/jiter-0.14.0-cp312-cp312-macosx_10_12_x86_64.whl"
       sha256 "2fb2ce3a7bc331256dfb14cefc34832366bb28a9aca81deaf43bbf2a5659e607"
+    end
+
+    resource "pydantic_core" do
+      url "https://files.pythonhosted.org/packages/4b/cb/5b47425556ecc1f3fe18ed2a0083188aa46e1dd812b06e406475b3a5d536/pydantic_core-2.46.3-cp312-cp312-macosx_10_12_x86_64.whl"
+      sha256 "b11b59b3eee90a80a36701ddb4576d9ae31f93f05cb9e277ceaa09e6bf074a67"
     end
   end
 
@@ -91,11 +101,6 @@ class Zev < Formula
   resource "pydantic" do
     url "https://files.pythonhosted.org/packages/d9/e4/40d09941a2cebcb20609b86a559817d5b9291c49dd6f8c87e5feffbe703a/pydantic-2.13.3.tar.gz"
     sha256 "af09e9d1d09f4e7fe37145c1f577e1d61ceb9a41924bf0094a36506285d0a84d"
-  end
-
-  resource "pydantic_core" do
-    url "https://files.pythonhosted.org/packages/2a/ef/f7abb56c49382a246fd2ce9c799691e3c3e7175ec74b14d99e798bcddb1a/pydantic_core-2.46.3.tar.gz"
-    sha256 "41c178f65b8c29807239d47e6050262eb6bf84eb695e41101e62e38df4a5bc2c"
   end
 
   resource "Pygments" do

@@ -1,0 +1,92 @@
+# This file belongs in homebrew-zev/.github/workflows/build-bottles.yml
+name: Build Bottles
+
+on:
+  push:
+    paths:
+      - 'Formula/zev.rb'
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build bottle (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-14, macos-13]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(grep -oE 'zev-[0-9]+\.[0-9]+\.[0-9]+' Formula/zev.rb | head -1 | sed 's/zev-//')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build bottle
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: |
+          brew tap dtnewman/zev "$(pwd)"
+          brew install --build-bottle dtnewman/zev/zev
+          brew bottle --json \
+            --root-url="https://github.com/dtnewman/homebrew-zev/releases/download/zev-${{ steps.version.outputs.version }}" \
+            dtnewman/zev/zev
+
+      - name: Upload bottle artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bottle-${{ matrix.os }}
+          path: |
+            *.bottle.tar.gz
+            *.bottle.json
+
+  merge:
+    name: Merge bottles and publish
+    needs: build
+    runs-on: macos-14
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Download bottles
+        uses: actions/download-artifact@v4
+        with:
+          pattern: bottle-*
+          merge-multiple: true
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(grep -oE 'zev-[0-9]+\.[0-9]+\.[0-9]+' Formula/zev.rb | head -1 | sed 's/zev-//')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Merge bottle blocks into formula
+        run: |
+          brew bottle --merge --write --no-commit *.bottle.json
+
+      - name: Commit updated formula
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/zev.rb
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Add bottles for zev ${{ steps.version.outputs.version }}"
+          git push
+
+      - name: Create release and upload bottles
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "zev-${{ steps.version.outputs.version }}"
+          name: "zev ${{ steps.version.outputs.version }}"
+          files: "*.bottle.tar.gz"
+          make_latest: false

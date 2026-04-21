@@ -3,8 +3,8 @@ class Zev < Formula
 
   desc "Lookup CLI commands easily using AI"
   homepage "https://github.com/dtnewman/zev"
-  url "https://files.pythonhosted.org/packages/98/48/57efe379e8b88e68ead7308b74cba3ca280f2f8471bab2bd5a4341647347/zev-0.10.12.tar.gz"
-  sha256 "fa7577c9b6c4c432ac7c18fc51f060ef52cc41638f3adfacf3441ef249878d6d"
+  url "https://files.pythonhosted.org/packages/53/4c/8ac51496024007143a919c2c538c8dba64c970567a8d6394b199827936e2/zev-0.10.14.tar.gz"
+  sha256 "5363bfac11302a99291cd1c0159cbce5d9088e92182455827b6635cb799c7bdc"
   license "MIT"
 
   depends_on "python@3.12"
@@ -155,7 +155,8 @@ class Zev < Formula
       wheel_name = resource.url.to_s.split("/").last
       wheel_path = wheel_dir/wheel_name
       FileUtils.cp(resource.cached_download, wheel_path)
-      venv.pip_install wheel_path
+      system "python3.12", "-m", "pip", "--python=#{venv.root}/bin/python", "install",
+             "--verbose", "--no-deps", "--ignore-installed", "--no-compile", wheel_path
     else
       venv.pip_install resource
     end

@@ -3,8 +3,8 @@ class Zev < Formula
 
   desc "Lookup CLI commands easily using AI"
   homepage "https://github.com/dtnewman/zev"
-  url "https://files.pythonhosted.org/packages/eb/0d/a190e85eb46bed0d7b357594483fcaf462030207f723ff113171214110c4/zev-0.10.15.tar.gz"
-  sha256 "c00ae03199da6da6a5d742a3e0df153035ef45250e765a54103c4e024bba4ef1"
+  url "https://files.pythonhosted.org/packages/86/de/462b584cefb1aecaf07fa1d03d10a16679769eb832a4e0155f37888308e3/zev-0.11.0.tar.gz"
+  sha256 "2191f06cbcd7b24d97c54d0f83e6049d3ef6ebe542c83f4c72152f22f0ce3995"
   license "MIT"
 
   depends_on "python@3.12"

@@ -15,12 +15,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-14, macos-13]
+        os: [macos-15, macos-14]
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Get version
         id: version
@@ -32,7 +32,6 @@ jobs:
         env:
           HOMEBREW_NO_AUTO_UPDATE: "1"
         run: |
-          brew tap dtnewman/zev "$(pwd)"
           brew install --build-bottle dtnewman/zev/zev
           brew bottle --json \
             --root-url="https://github.com/dtnewman/homebrew-zev/releases/download/zev-${{ steps.version.outputs.version }}" \
@@ -56,7 +55,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Download bottles
         uses: actions/download-artifact@v4

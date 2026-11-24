@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-15, macos-14]
+        os: [macos-26, macos-15]
     steps:
       - uses: actions/checkout@v4
 
@@ -48,7 +48,7 @@ jobs:
   merge:
     name: Merge bottles and publish
     needs: build
-    runs-on: macos-14
+    runs-on: macos-15
     permissions:
       contents: write
     steps:
